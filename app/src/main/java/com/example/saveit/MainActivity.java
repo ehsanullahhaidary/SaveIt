@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 SparseBooleanArray positionChecker = listView.getCheckedItemPositions();
 
 
+
+
                 for (int i = listView.getCount(); i >= 0; i--) {
                     if (positionChecker.get(i)) {
                         arrayList.remove(i);
@@ -132,7 +134,15 @@ public class MainActivity extends AppCompatActivity {
                     databaseHelper.addText(clone.get(i));
                 }
 
-                
+                for (int i = listView.getCount(); i >= 0; i--) {
+                    if (positionChecker.get(i)) {
+                        listView.setItemChecked(i, false);
+                    }
+                }
+
+
+
+
                 arrayAdapter.notifyDataSetChanged();
 
             }
