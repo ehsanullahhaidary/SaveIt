@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Initialize Array Adapter
         arrayAdapter = new ArrayAdapter(MainActivity.this,
-                android.R.layout.simple_list_item_multiple_choice, arrayList){
+                android.R.layout.simple_list_item_multiple_choice, arrayList) {
             @RequiresApi(api = Build.VERSION_CODES.N)
-            public View getView(int position, View convertView, ViewGroup parent){
+            public View getView(int position, View convertView, ViewGroup parent) {
                 // Get the current item from ListView
-                View view = super.getView(position,convertView,parent);
+                View view = super.getView(position, convertView, parent);
 
                 // Get the Layout Parameters for ListView Current Item View
                 ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         listView.refreshDrawableState();
                         Collections.sort(arrayList);
                     }
+                } else {
+                    Toast.makeText(MainActivity.this, "Input is empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this, String.valueOf(listView.getCheckedItemPosition()), Toast.LENGTH_SHORT).show();
+
                 Toast.makeText(getApplicationContext(), "Data Deleted...",
                         Toast.LENGTH_SHORT).show();
 
@@ -115,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 SparseBooleanArray positionChecker = listView.getCheckedItemPositions();
 
 
-
-
                 for (int i = listView.getCount(); i >= 0; i--) {
                     if (positionChecker.get(i)) {
                         arrayList.remove(i);
@@ -124,18 +126,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
-                for (String s : arrayList) {
-                    clone.add(s);
-                }
+                clone.addAll(arrayList);
                 databaseHelper.removeText();
                 for (int i = 0; i < clone.size(); i++) {
                     databaseHelper.addText(clone.get(i));
                 }
 
-
-
+                
                 arrayAdapter.notifyDataSetChanged();
+
             }
         });
     }
