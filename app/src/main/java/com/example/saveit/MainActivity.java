@@ -108,25 +108,21 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, String.valueOf(listView.getCheckedItemPosition()), Toast.LENGTH_SHORT).show();
-
-                Toast.makeText(getApplicationContext(), "Data Deleted...",
-                        Toast.LENGTH_SHORT).show();
-
 
                 ArrayList<String> clone = new ArrayList<String>();
 
                 SparseBooleanArray positionChecker = listView.getCheckedItemPositions();
 
-
-
+                if (positionChecker.size() == 0) {
+                    Toast.makeText(MainActivity.this, "Please select to delete", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 for (int i = listView.getCount(); i >= 0; i--) {
                     if (positionChecker.get(i)) {
                         arrayList.remove(i);
                     }
                 }
-
 
                 clone.addAll(arrayList);
                 databaseHelper.removeText();
@@ -140,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-
-
+                Toast.makeText(getApplicationContext(), "Data Deleted...",
+                        Toast.LENGTH_SHORT).show();
 
                 arrayAdapter.notifyDataSetChanged();
 
